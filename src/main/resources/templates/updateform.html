@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edytuj</title>
+</head>
+<body>
+    <h1>Edytuj dane</h1>
+    <h2>Wpisz nowa wartosc</h2>
+    <form action="#" th:action="@{/person/{id}/update(id = ${personId})}" method="post">
+        <p th:text="${attribute}"></p>
+        <input type="text" th:field="${attributeValue}">
+        <input type="submit" value="Edytuj">
+    </form>
+</body>
+</html>
