@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PersonService {
     private PersonRepository personRepository;
@@ -16,7 +18,10 @@ public class PersonService {
         this.personRepository = personRepository;
     }
     public List<Person> getAll(){
-        return personRepository.findAll();
+        return personRepository.findAll()
+                .stream()
+                .sorted((p1, p2) -> p1.getLastname().compareTo(p2.getLastname()))
+                .collect(Collectors.toList());
     }
     public Person getPersonById(Long id){
         return personRepository.getOne(id);
