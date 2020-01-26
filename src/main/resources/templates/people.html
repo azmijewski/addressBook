@@ -8,7 +8,7 @@
     <h1>Twoje kontakty</h1>
     <div th:if="${!people.isEmpty()}">
         <div id="search">
-            <form action="#" th:action="@{/people/lastname}">
+            <form action="#" th:action="@{/search}">
                 <p>
                     Wpisz nazwisko: <input type="text" name="lastname">
                     <input type="submit" value="Wyszukaj">

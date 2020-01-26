@@ -11,43 +11,46 @@
             <tr>
                 <td>Imie:</td>
                 <td th:text="${person.firstname}">Brak</td>
-                <td><a th:href="@{/person/{id}/updateForm/firstname(id = ${person.id})}">Edytuj</a> </td>
+
             </tr>
             <tr>
                 <td>Nazwisko:</td>
                 <td th:text="${person.lastname}">Brak</td>
-                <td><a th:href="@{/person/{id}/updateForm/lastname(id = ${person.id})}">Edytuj</a> </td>
+
             </tr>
             <tr>
                 <td>Numer Telefonu:</td>
                 <td th:text="${person.contact.mobileNumber}">Brak</td>
-                <td><a th:href="@{/person/{id}/updateForm/mobileNumber(id = ${person.id})}">Edytuj</a> </td>
+
             </tr>
             <tr>
                 <td>Email:</td>
                 <td th:text="${person.contact.email}">Brak</td>
-                <td><a th:href="@{/person/{id}/updateForm/email(id = ${person.id})}">Edytuj</a> </td>
+
             </tr>
             <tr>
                 <td>Ulica:</td>
                 <td th:text="${person.address.street}">Brak</td>
-                <td><a th:href="@{/person/{id}/updateForm/street(id = ${person.id})}">Edytuj</a> </td>
+
             </tr>
             <tr>
                 <td>Numer domu:</td>
                 <td th:text="${person.address.houseNumber}">Brak</td>
-                <td><a th:href="@{/person/{id}/updateForm/houseNumber(id = ${person.id})}">Edytuj</a> </td>
+
             </tr>
             <tr>
                 <td>Miejscowosc:</td>
                 <td th:text="${person.address.city}">Brak</td>
-                <td><a th:href="@{/person/{id}/updateForm/city(id = ${person.id})}">Edytuj</a> </td>
+
             </tr>
         </table>
     </div>
     <div id="personOperations">
-        <form action="#" th:action="@{/person/{id}/delete(id = ${person.id})}" method="post">
+        <form action="#" th:action="@{/person-delete/{id}(id = ${person.id})}" method="post">
             <input type="submit" value="Usun">
+        </form>
+        <form action="#" th:action="@{/person-update/{id}(id = ${person.id})}" method="get">
+            <input type="submit" value="Edytuj">
         </form>
     </div>
 </body>

@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Dodaj kontakt</h1>
-    <form action="#" th:action="@{/add}" method="post">
+    <form action="#" th:action="@{/save-contact}" method="post">
         <p>Imie: <input type="text" th:field="${person.firstname}"></p>
         <p>Nazwisko: <input type="text" th:field="${person.lastname}"></p>
         <p>Numer Telefonu: <input type="text" th:field="${person.contact.mobileNumber}"></p>

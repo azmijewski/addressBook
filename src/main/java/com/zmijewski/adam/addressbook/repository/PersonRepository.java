@@ -15,10 +15,4 @@ import java.util.List;
 public interface PersonRepository extends JpaRepository<Person, Long> {
     List<Person> findAllByLastname(String lastname);
     void deleteById(Long id);
-    @Query("update Person p set p.firstname=:firstname where p=:person")
-    @Modifying
-    void updateFirstname(@Param("firstname") String firstname, @Param("person") Person person);
-    @Query("update Person p set p.lastname=:lastname where p=:person")
-    @Modifying
-    void updateLastname(@Param("lastname") String lastname, @Param("person") Person person);
 }

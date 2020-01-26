@@ -6,10 +6,16 @@
 </head>
 <body>
     <h1>Edytuj dane</h1>
-    <h2>Wpisz nowa wartosc</h2>
-    <form action="#" th:action="@{/person/{id}/update(id = ${personId})}" method="post">
-        <p th:text="${attribute}"></p>
-        <input type="text" th:field="${attributeValue}">
+    <h1>Dodaj kontakt</h1>
+    <form action="#" th:action="@{/person-update}" method="post">
+        <p hidden = "true"><input type="number" th:field="${person.id}"> </p>
+        <p>Imie: <input type="text" th:field="${person.firstname}"></p>
+        <p>Nazwisko: <input type="text" th:field="${person.lastname}"></p>
+        <p>Numer Telefonu: <input type="text" th:field="${person.contact.mobileNumber}"></p>
+        <p>Email: <input type="text" th:field="${person.contact.email}"></p>
+        <p>Ulica: <input type="text" th:field="${person.address.street}"></p>
+        <p>Nr domu: <input type="text" th:field="${person.address.houseNumber}"></p>
+        <p>Miejscowosc: <input type="text" th:field="${person.address.city}"></p>
         <input type="submit" value="Edytuj">
     </form>
 </body>
