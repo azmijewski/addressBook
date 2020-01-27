@@ -11,8 +11,10 @@
         <p hidden = "true"><input type="number" th:field="${person.id}"> </p>
         <p>Imie: <input type="text" th:field="${person.firstname}"></p>
         <p>Nazwisko: <input type="text" th:field="${person.lastname}"></p>
+        <p hidden = "true"><input type="number" th:field="${person.contact.id}"> </p>
         <p>Numer Telefonu: <input type="text" th:field="${person.contact.mobileNumber}"></p>
         <p>Email: <input type="text" th:field="${person.contact.email}"></p>
+        <p hidden = "true"><input type="number" th:field="${person.address.id}"> </p>
         <p>Ulica: <input type="text" th:field="${person.address.street}"></p>
         <p>Nr domu: <input type="text" th:field="${person.address.houseNumber}"></p>
         <p>Miejscowosc: <input type="text" th:field="${person.address.city}"></p>

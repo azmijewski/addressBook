@@ -62,6 +62,4 @@ public class PersonController {
        model.addAttribute("person", person);
         return "updateform";
     }
-
-
 }

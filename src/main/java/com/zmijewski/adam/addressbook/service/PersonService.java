@@ -13,9 +13,11 @@ import java.util.stream.Collectors;
 @Service
 public class PersonService {
     private PersonRepository personRepository;
+
     @Autowired
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
+
     }
     public List<Person> getAll(){
         return personRepository.findAll()
@@ -36,6 +38,7 @@ public class PersonService {
         personRepository.deleteById(id);
     }
     public void update(Person person){
+
         personRepository.save(person);
     }
 }
