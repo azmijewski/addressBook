@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formularz do dodawanie kontaktow</title>
+</head>
+<body>
+<h1>Dodaj kontakt</h1>
+<form action="#" th:action="@{/register}" method="post">
+    <p th:errors="*{user.email}">Email errors</p>
+    <p>Email: <input type="text" th:field="${user.email}"></p>
+    <p th:errors="*{user.password}">Password errors</p>
+    <p>Haslo: <input type="password" th:field="${user.password}"></p>
+    <input type="submit" value="Zarejestruj">
+</form>
+</body>

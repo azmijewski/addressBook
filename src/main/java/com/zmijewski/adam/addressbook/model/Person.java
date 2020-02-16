@@ -16,15 +16,17 @@ public class Person {
     private Contact contact;
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Address address;
-
+    @ManyToOne
+    private User user;
     public Person() {
     }
 
-    public Person(String firstname, String lastname, Contact contact, Address address) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.contact = contact;
-        this.address = address;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getFirstname() {

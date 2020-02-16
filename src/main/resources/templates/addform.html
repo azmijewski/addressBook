@@ -10,6 +10,7 @@
         <p>Imie: <input type="text" th:field="${person.firstname}"></p>
         <p>Nazwisko: <input type="text" th:field="${person.lastname}"></p>
         <p>Numer Telefonu: <input type="text" th:field="${person.contact.mobileNumber}"></p>
+        <p th:errors="*{person.contact.email}">Email errors</p>
         <p>Email: <input type="text" th:field="${person.contact.email}"></p>
         <p>Ulica: <input type="text" th:field="${person.address.street}"></p>
         <p>Nr domu: <input type="text" th:field="${person.address.houseNumber}"></p>

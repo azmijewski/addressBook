@@ -5,8 +5,10 @@ import com.zmijewski.adam.addressbook.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -26,7 +28,7 @@ public class PersonController {
     }
     @GetMapping("/person/{id}")
     public String getOne(@PathVariable Long id, Model model){
-        Person person = personService.getPersonById(id);
+        Person person = personService.getPersonById(id).get();
         model.addAttribute("person", person);
         return "person";
     }
@@ -36,7 +38,10 @@ public class PersonController {
         return "addform";
     }
     @PostMapping("/save-contact")
-    public String save(@ModelAttribute Person person, Model model){
+    public String save(@ModelAttribute @Valid Person person, BindingResult result, Model model){
+        if(result.hasErrors()){
+            return "redirect:add-contact";
+        }
         personService.save(person);
         return "redirect:/people";
     }
@@ -58,7 +63,7 @@ public class PersonController {
     }
     @GetMapping("/person-update/{id}")
     public String updateForm(@PathVariable Long id,  Model model){
-       Person person = personService.getPersonById(id);
+       Person person = personService.getPersonById(id).get();
        model.addAttribute("person", person);
         return "updateform";
     }
