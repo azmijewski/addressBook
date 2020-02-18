@@ -25,14 +25,17 @@
             <tr th:each="person:${people}">
                 <td th:text="${person.getFirstname()}">Brak</td>
                 <td th:text="${person.getLastname()}">Brak</td>
-                <td th:text="${person.getContact().getMobileNumber()}">Brak</td>
-                <td th:text="${person.getAddress().getCity()}">Brak</td>
+                <td th:text="${person.mobileNumber}">Brak</td>
+                <td th:text="${person.city}">Brak</td>
                 <td><a th:href="@{/person/{id}(id = ${person.id})}">Zobacz szczegoly</a> </td>
             </tr>
         </table>
     </div>
     <div th:if="${people.isEmpty()}">
         <h2>Nie masz jeszcze kontaktow</h2>
+    </div>
+    <div>
+        <a th:href="@{/home}">Powrot do menu</a>
     </div>
 </body>
 </html>

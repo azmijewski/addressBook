@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .successForwardUrl("/home")
                 .and()
                 .logout()
-                    .logoutSuccessUrl("/logout").permitAll();
+                    .logoutSuccessUrl("/");
     }
     @Bean
     public PasswordEncoder passwordEncoder(){

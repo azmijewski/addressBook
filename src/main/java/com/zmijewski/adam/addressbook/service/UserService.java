@@ -1,9 +1,9 @@
 package com.zmijewski.adam.addressbook.service;
 
+import com.zmijewski.adam.addressbook.exception.EmailAlreadyExistException;
 import com.zmijewski.adam.addressbook.model.User;
 import com.zmijewski.adam.addressbook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 @Service
 public class UserService implements UserDetailsService {
@@ -41,6 +40,9 @@ public class UserService implements UserDetailsService {
         return userDetails;
     }
     public void registerUser(User user){
+        if (userRepository.findByEmail(user.getEmail()).isPresent()){
+            throw new EmailAlreadyExistException();
+        }
         String password = user.getPassword();
         String hashedPassword = passwordEncoder.encode(password);
         user.setPassword(hashedPassword);

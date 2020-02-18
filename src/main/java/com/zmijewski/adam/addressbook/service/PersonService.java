@@ -49,6 +49,8 @@ public class PersonService {
         personRepository.deleteByIdAndUser(id, user.get());
     }
     public void update(Person person){
+        Optional<User> user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        person.setUser(user.get());
         personRepository.save(person);
     }
 }

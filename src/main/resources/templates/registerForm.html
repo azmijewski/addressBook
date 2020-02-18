@@ -6,10 +6,12 @@
 </head>
 <body>
 <h1>Dodaj kontakt</h1>
+<p th:if="${error}" th:text="${error}" style="color: red">email exist</p>
 <form action="#" th:action="@{/register}" method="post">
-    <p th:errors="*{user.email}">Email errors</p>
+
+    <p th:errors="${user.email}">Email errors</p>
     <p>Email: <input type="text" th:field="${user.email}"></p>
-    <p th:errors="*{user.password}">Password errors</p>
+    <p th:errors="${user.password}">Password errors</p>
     <p>Haslo: <input type="password" th:field="${user.password}"></p>
     <input type="submit" value="Zarejestruj">
 </form>

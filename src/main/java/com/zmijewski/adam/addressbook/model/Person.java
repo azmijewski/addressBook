@@ -4,6 +4,8 @@ package com.zmijewski.adam.addressbook.model;
 import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 
 @Entity
 public class Person {
@@ -12,10 +14,14 @@ public class Person {
     private Long id;
     private String firstname;
     private String lastname;
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Contact contact;
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Address address;
+    @Pattern(regexp = "[0-9]+")
+    private String mobileNumber;
+    @Email
+    private String email;
+    private String street;
+    private String houseNumber;
+    private String city;
+
     @ManyToOne
     private User user;
     public Person() {
@@ -45,22 +51,6 @@ public class Person {
         this.lastname = lastname;
     }
 
-    public Contact getContact() {
-        return contact;
-    }
-
-    public void setContact(Contact contact) {
-        this.contact = contact;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
     public Long getId() {
         return id;
     }
@@ -69,4 +59,43 @@ public class Person {
         this.id = id;
     }
 
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getHouseNumber() {
+        return houseNumber;
+    }
+
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 }
