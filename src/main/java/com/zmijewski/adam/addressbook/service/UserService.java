@@ -1,6 +1,7 @@
 package com.zmijewski.adam.addressbook.service;
 
 import com.zmijewski.adam.addressbook.exception.EmailAlreadyExistException;
+import com.zmijewski.adam.addressbook.model.RegistrationToken;
 import com.zmijewski.adam.addressbook.model.User;
 import com.zmijewski.adam.addressbook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
+    private RegistrationTokenService tokenService;
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -23,6 +25,10 @@ public class UserService implements UserDetailsService {
     @Autowired
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
+    }
+    @Autowired
+    public void setTokenService(RegistrationTokenService tokenService) {
+        this.tokenService = tokenService;
     }
 
     @Override
@@ -46,7 +52,9 @@ public class UserService implements UserDetailsService {
         String password = user.getPassword();
         String hashedPassword = passwordEncoder.encode(password);
         user.setPassword(hashedPassword);
-        userRepository.save(user);
+        user = userRepository.save(user);
+        RegistrationToken token = tokenService.createToken(user);
+        tokenService.saveToken(token);
     }
 
 }
