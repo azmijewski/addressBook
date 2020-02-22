@@ -1,4 +1,6 @@
-package com.zmijewski.adam.addressbook.model;
+package com.zmijewski.adam.addressbook.token;
+
+import com.zmijewski.adam.addressbook.model.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -7,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-public class RegistrationToken implements Serializable {
+public class RegistrationToken extends Token implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

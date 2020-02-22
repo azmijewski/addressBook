@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
@@ -15,7 +15,9 @@ public class User implements Serializable {
     private Long id;
     @Email
     private String email;
+    @Size(min = 8)
     private String password;
+    private boolean isConfirmed;
 
     public User() {
     }
@@ -42,5 +44,13 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Boolean getConfirmed() {
+        return isConfirmed;
+    }
+
+    public void setConfirmed(Boolean confirmed) {
+        isConfirmed = confirmed;
     }
 }

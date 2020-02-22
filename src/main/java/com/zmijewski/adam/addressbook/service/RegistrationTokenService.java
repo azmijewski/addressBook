@@ -1,6 +1,6 @@
 package com.zmijewski.adam.addressbook.service;
 
-import com.zmijewski.adam.addressbook.model.RegistrationToken;
+import com.zmijewski.adam.addressbook.token.RegistrationToken;
 import com.zmijewski.adam.addressbook.model.User;
 import com.zmijewski.adam.addressbook.repository.RegistrationTokenRepository;
 import com.zmijewski.adam.addressbook.repository.UserRepository;
@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RegistrationTokenService {
@@ -34,7 +34,11 @@ public class RegistrationTokenService {
         return token;
     }
     public void saveToken(RegistrationToken token){
+
         tokenRepository.save(token);
+    }
+    public Optional<RegistrationToken> findByName(String name){
+        return tokenRepository.findByName(name);
     }
     @Scheduled(fixedRate = 1000 * 60 )
     public void deleteExpiredTokens(){
@@ -42,8 +46,6 @@ public class RegistrationTokenService {
         LocalDateTime now = LocalDateTime.now();
         for (RegistrationToken token : tokens){
             if (token.getExpirationDate().isAfter(now)){
-                User user = token.getUser();
-                userRepository.delete(user);
                 tokenRepository.delete(token);
             }
         }

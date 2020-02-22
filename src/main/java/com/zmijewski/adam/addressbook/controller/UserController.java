@@ -36,6 +36,7 @@ public class UserController {
         userService.registerUser(user);
         return "registerSuccesfull";
     }
+    @GetMapping("/{token}")
     @ExceptionHandler(EmailAlreadyExistException.class)
     public String handleEmailAlreadyExistException(Model model){
         model.addAttribute("user", new User());

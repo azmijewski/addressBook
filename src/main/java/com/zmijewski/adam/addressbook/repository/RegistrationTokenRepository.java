@@ -1,6 +1,6 @@
 package com.zmijewski.adam.addressbook.repository;
 
-import com.zmijewski.adam.addressbook.model.RegistrationToken;
+import com.zmijewski.adam.addressbook.token.RegistrationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
