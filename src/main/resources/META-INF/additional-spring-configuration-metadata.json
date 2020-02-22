@@ -4,5 +4,10 @@
       "name": "app.url",
       "type": "java.lang.String",
       "description": "Application url."
-  }
-] }
+    },
+    {
+      "name": "app.registration.url",
+      "type": "java.lang.String",
+      "description": "Description for app.registration.url."
+    }
+  ] }

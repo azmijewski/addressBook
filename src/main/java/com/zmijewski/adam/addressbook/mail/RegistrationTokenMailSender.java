@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 @Mail(type = Mail.MailType.REGISTRATION)
 @Component
 public class RegistrationTokenMailSender implements MailSender {
-
-    private String appUrl = "http://localhost:8081/register/";
+    @Value("${app.registration.url}")
+    private String appUrl;
 
     private JavaMailSender mailSender;
     @Autowired
