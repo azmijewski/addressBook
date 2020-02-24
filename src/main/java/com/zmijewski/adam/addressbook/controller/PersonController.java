@@ -3,6 +3,7 @@ package com.zmijewski.adam.addressbook.controller;
 import com.zmijewski.adam.addressbook.model.Person;
 import com.zmijewski.adam.addressbook.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -66,5 +67,9 @@ public class PersonController {
        Person person = personService.getPersonById(id).get();
        model.addAttribute("person", person);
         return "updateform";
+    }
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public String handleUserNotFoundException(){
+        return "userNotFound";
     }
 }

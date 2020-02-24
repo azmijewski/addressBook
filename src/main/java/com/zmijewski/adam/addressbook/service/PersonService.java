@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,7 +40,12 @@ public class PersonService {
     public Optional<Person> getPersonById(Long id){
         logger.debug("Inside getPersonById for id = " + id);
         Optional<User> user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        return personRepository.findByIdAndUser(id, user.get());
+        Optional<Person> person = personRepository.findByIdAndUser(id, user.get());
+        if (!user.isPresent()){
+            logger.warn("User with id = " + id + "not found" );
+            throw new UsernameNotFoundException("user not found");
+        }
+        return person;
     }
     public void save(Person person){
         logger.debug("Inside save");
@@ -50,11 +56,19 @@ public class PersonService {
     public List<Person> findAllByLastname(String lastname){
         logger.debug("Inside findAllByLastName for lastname = " + lastname);
         Optional<User> user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (!user.isPresent()){
+            logger.warn("User with lastname = " + lastname + "not found" );
+            throw new UsernameNotFoundException("user not found");
+        }
         return personRepository.findAllByLastnameAndUser(lastname, user.get());
     }
     public void delete(Long id){
         logger.debug("Deleting contact with id = " + id);
         Optional<User> user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (!user.isPresent()){
+            logger.warn("User with id = " + id + "not found" );
+            throw new UsernameNotFoundException("user not found");
+        }
         personRepository.deleteByIdAndUser(id, user.get());
     }
     public void update(Person person){

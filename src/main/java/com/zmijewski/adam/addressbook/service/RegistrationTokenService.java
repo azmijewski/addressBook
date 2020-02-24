@@ -46,13 +46,14 @@ public class RegistrationTokenService {
         logger.debug("Inside findByName with token: " + name);
         return tokenRepository.findByName(name);
     }
-    @Scheduled(fixedRate = 1000 * 60 )
+    @Scheduled(fixedRate = 1000 * 60 * 60)
     public void deleteExpiredTokens(){
         logger.debug("Inside scheduled deleteExpiredTokens");
         List<RegistrationToken> tokens = tokenRepository.findAll();
         LocalDateTime now = LocalDateTime.now();
         for (RegistrationToken token : tokens){
-            if (token.getExpirationDate().isAfter(now)){
+            logger.info(token.getExpirationDate().toString());
+            if (now.isAfter(token.getExpirationDate())){
                 logger.debug("Token with name " + token.getName() + " is going to be removed");
                 tokenRepository.delete(token);
             }

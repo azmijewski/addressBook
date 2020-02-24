@@ -27,11 +27,12 @@ public class RegistrationTokenMailSender implements MailSender {
         RegistrationToken rgtoken = (RegistrationToken) token;
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(user.getEmail());
-        mailMessage.setText(textMessage(rgtoken));
-        mailMessage.setSubject("Weryfikacja");
+        mailMessage.setText(prepareMessageBody(rgtoken));
+        mailMessage.setSubject("AddressBook - Weryfikacja konta");
         mailSender.send(mailMessage);
     }
-    private String textMessage(RegistrationToken token){
-        return appUrl + token.getName();
+    private String prepareMessageBody(RegistrationToken token){
+
+        return "Link do potwierdzenia konta:\n" + appUrl + token.getName() + "\n Jezeli nie rejestrowales sie na stronie, po prostu zignoruj tę wiadomość";
     }
 }
