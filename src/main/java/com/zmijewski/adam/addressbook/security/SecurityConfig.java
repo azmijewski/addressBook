@@ -13,17 +13,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/").permitAll()
-                    .antMatchers("/register").permitAll()
-                    .antMatchers("/success").permitAll()
-                    .antMatchers("/register/**").permitAll()
-                    .anyRequest().authenticated()
+                    .anyRequest().permitAll()
                 .and()
-                .formLogin()
-                    .successForwardUrl("/home")
-                .and()
-                .logout()
-                    .logoutSuccessUrl("/");
+                .csrf().disable();
     }
     @Bean
     public PasswordEncoder passwordEncoder(){

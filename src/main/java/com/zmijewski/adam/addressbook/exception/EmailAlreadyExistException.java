@@ -1,5 +1,5 @@
 package com.zmijewski.adam.addressbook.exception;
 
-public class EmailAlreadyExistException extends RuntimeException{
+public class EmailAlreadyExistException extends Exception{
 
 }

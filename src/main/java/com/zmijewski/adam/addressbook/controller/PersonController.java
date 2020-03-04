@@ -3,16 +3,19 @@ package com.zmijewski.adam.addressbook.controller;
 import com.zmijewski.adam.addressbook.model.Person;
 import com.zmijewski.adam.addressbook.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
-@Controller
+@RestController
 public class PersonController {
     private PersonService personService;
 
@@ -21,55 +24,58 @@ public class PersonController {
         this.personService = personService;
     }
 
-    @GetMapping("/people")
-    public String getAll(Model model){
-        List<Person> people = personService.getAll();
-        model.addAttribute("people", people);
-        return "people";
+    @GetMapping("/contacts")
+    public ResponseEntity<List<Person>> getAll(){
+        return ResponseEntity
+                .ok(personService.getAll());
     }
-    @GetMapping("/person/{id}")
-    public String getOne(@PathVariable Long id, Model model){
-        Person person = personService.getPersonById(id).get();
-        model.addAttribute("person", person);
-        return "person";
+    @GetMapping("/contacts/{id}")
+    public ResponseEntity<Person> getPersonById(@PathVariable Long id, Model model){
+        return personService.getPersonById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity
+                        .notFound()
+                        .build());
     }
-    @GetMapping("/add-contact")
-    public String getForm(Model model){
-        model.addAttribute("person", new Person());
-        return "addform";
-    }
-    @PostMapping("/save-contact")
-    public String save(@ModelAttribute @Valid Person person, BindingResult result, Model model){
-        if(result.hasErrors()){
-            return "redirect:add-contact";
+    @PostMapping("/contacts")
+    public ResponseEntity<?> addContact(@RequestBody @Valid Person person, BindingResult result){
+        if (result.hasErrors()){
+            return ResponseEntity
+                    .badRequest()
+                    .build();
         }
         personService.save(person);
-        return "redirect:/people";
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(person.getId())
+                .toUri();
+        return ResponseEntity
+                .created(location)
+                .build();
     }
-    @GetMapping("/search")
-    public String getByLastname(@RequestParam String lastname, Model model){
-        List<Person> people = personService.findAllByLastname(lastname);
-        model.addAttribute("people", people);
-        return "people";
+    @GetMapping("/contacts/search")
+    public ResponseEntity<List<Person>> getByLastname(@RequestParam String lastname){
+        return ResponseEntity
+                .ok(personService.findAllByLastname(lastname));
     }
-    @PostMapping("/person-delete/{id}")
-    public String delete(@PathVariable Long id){
+    @DeleteMapping("/contacts/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
         personService.delete(id);
-        return "redirect:/people";
+        return ResponseEntity
+                .ok()
+                .build();
     }
-    @PostMapping("/person-update")
-    public String updatePerson(@ModelAttribute Person person, Model model){
+    @PutMapping("/contacts/{id}")
+    public ResponseEntity<?> updatePerson(@RequestBody @Valid Person person, BindingResult result){
+        if (result.hasErrors()){
+            return ResponseEntity
+                    .badRequest()
+                    .build();
+        }
         personService.update(person);
-        return "redirect:/people";
-    }
-    @GetMapping("/person-update/{id}")
-    public String updateForm(@PathVariable Long id,  Model model){
-       Person person = personService.getPersonById(id).get();
-       model.addAttribute("person", person);
-        return "updateform";
-    }
-    @ExceptionHandler(UsernameNotFoundException.class)
-    public String handleUserNotFoundException(){
-        return "userNotFound";
+        return ResponseEntity
+                .ok()
+                .build();
     }
 }

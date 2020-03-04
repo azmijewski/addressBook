@@ -64,7 +64,7 @@ public class UserService implements UserDetailsService {
         );
         return userDetails;
     }
-    public void registerUser(User user){
+    public void registerUser(User user) throws EmailAlreadyExistException {
         logger.debug("Inside registerUser with user: " + user.getEmail());
         if (userRepository.findByEmail(user.getEmail()).isPresent()){
             logger.warn("User with mail " + user.getEmail() + " already exists in app");
