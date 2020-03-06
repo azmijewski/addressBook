@@ -38,7 +38,8 @@ public class UserController {
                 .ok()
                 .build();
     }
-    @PostMapping("/login")
+
+    @GetMapping("/login")
     public Principal login(Principal user){
 
         return user;
