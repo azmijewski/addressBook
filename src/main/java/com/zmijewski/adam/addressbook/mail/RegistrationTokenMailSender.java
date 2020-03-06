@@ -5,7 +5,6 @@ import com.zmijewski.adam.addressbook.token.RegistrationToken;
 import com.zmijewski.adam.addressbook.token.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
@@ -32,7 +31,7 @@ public class RegistrationTokenMailSender implements MailSender {
         mailSender.send(mailMessage);
     }
     private String prepareMessageBody(RegistrationToken token){
-
+        
         return "Link do potwierdzenia konta:\n" + appUrl + token.getName() + "\n Jezeli nie rejestrowales sie na stronie, po prostu zignoruj tę wiadomość";
     }
 }

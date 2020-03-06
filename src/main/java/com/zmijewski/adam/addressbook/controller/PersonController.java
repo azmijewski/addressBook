@@ -4,15 +4,13 @@ import com.zmijewski.adam.addressbook.model.Person;
 import com.zmijewski.adam.addressbook.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -25,26 +23,26 @@ public class PersonController {
     }
 
     @GetMapping("/contacts")
-    public ResponseEntity<List<Person>> getAll(){
+    public ResponseEntity<List<Person>> getAll(Principal principal){
         return ResponseEntity
-                .ok(personService.getAll());
+                .ok(personService.getAll(principal.getName()));
     }
     @GetMapping("/contacts/{id}")
-    public ResponseEntity<Person> getPersonById(@PathVariable Long id, Model model){
-        return personService.getPersonById(id)
+    public ResponseEntity<Person> getPersonById(@PathVariable Long id, Principal principal){
+        return personService.getPersonById(id, principal.getName())
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity
                         .notFound()
                         .build());
     }
     @PostMapping("/contacts")
-    public ResponseEntity<?> addContact(@RequestBody @Valid Person person, BindingResult result){
+    public ResponseEntity<?> addContact(@RequestBody @Valid Person person, Principal principal, BindingResult result){
         if (result.hasErrors()){
             return ResponseEntity
                     .badRequest()
                     .build();
         }
-        personService.save(person);
+        personService.save(person, principal.getName());
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -55,25 +53,25 @@ public class PersonController {
                 .build();
     }
     @GetMapping("/contacts/search")
-    public ResponseEntity<List<Person>> getByLastname(@RequestParam String lastname){
+    public ResponseEntity<List<Person>> getByLastname(@RequestParam String lastname, Principal principal){
         return ResponseEntity
-                .ok(personService.findAllByLastname(lastname));
+                .ok(personService.findAllByLastname(lastname, principal.getName()));
     }
     @DeleteMapping("/contacts/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
-        personService.delete(id);
+    public ResponseEntity<?> delete(@PathVariable Long id, Principal principal){
+        personService.delete(id, principal.getName());
         return ResponseEntity
                 .ok()
                 .build();
     }
     @PutMapping("/contacts/{id}")
-    public ResponseEntity<?> updatePerson(@RequestBody @Valid Person person, BindingResult result){
+    public ResponseEntity<?> updatePerson(@RequestBody @Valid Person person, Principal principal, BindingResult result){
         if (result.hasErrors()){
             return ResponseEntity
                     .badRequest()
                     .build();
         }
-        personService.update(person);
+        personService.update(person, principal.getName());
         return ResponseEntity
                 .ok()
                 .build();
