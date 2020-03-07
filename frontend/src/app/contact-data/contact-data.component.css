@@ -1,0 +1,15 @@
+#container{
+  margin-left: 20%;
+}
+.btn-group{
+  margin: auto;
+}
+.btn-primary{
+  margin: 10px;
+}
+.btn-danger{
+  margin: 10px;
+}
+.element{
+  font-size: x-large;
+}
