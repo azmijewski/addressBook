@@ -1,0 +1,7 @@
+<label class="navbar-brand">AdressBook</label>
+<div class="btn-group">
+  <button class="btn btn-outline-primary" *ngIf="isAuthenticated">Rejestracja</button>
+  <button class="btn btn-outline-success" *ngIf="isAuthenticated">Zaloguj</button>
+  <button class="btn btn-outline-danger" *ngIf="!isAuthenticated">Wyloguj</button>
+</div>
+
