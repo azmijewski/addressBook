@@ -1,17 +1,14 @@
-<div class="container">
+<div class="container" [hidden]="true">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <app-header></app-header>
   </nav>
   <div class="element" [hidden]="true">
-   <app-register-form></app-register-form>
-  </div>
-  <div class="element" [hidden] = "true">
     <app-contact-table></app-contact-table>
   </div>
   <div class="element" [hidden]="true">
-    <app-contact-form></app-contact-form>
+    <app-main-page-without-login></app-main-page-without-login>
   </div>
-  <div class="element" >
-    <app-contact-data></app-contact-data>
-  </div>
+</div>
+<div class="pageNotFound">
+  <app-page-not-found></app-page-not-found>
 </div>

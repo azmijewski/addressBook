@@ -4,3 +4,11 @@
 .element{
   margin-top: 50px;
 }
+.pageNotFound{
+  background-color: #39bbdb;
+  color: #fff;
+  padding-bottom: 0;
+  min-height: 100%;
+  font-family: 'Open Sans', 'Segoe UI', serif;
+  font-size: 13px;
+}
