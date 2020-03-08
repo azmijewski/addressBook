@@ -41,22 +41,22 @@ public class PersonService {
         return personRepository.findByIdAndUser(id, user.get());
     }
     public void save(Person person, String email){
-        logger.debug("Inside save");
+        logger.info("Inside save");
         Optional<User> user = userRepository.findByEmail(email);
         person.setUser(user.get());
         personRepository.save(person);
     }
     public List<Person> findAllByLastname(String lastname, String email){
-        logger.debug("Inside findAllByLastName for lastname = " + lastname);
+        logger.info("Inside findAllByLastName for lastname = " + lastname);
         Optional<User> user = userRepository.findByEmail(email);
         if (!user.isPresent()){
-            logger.warn("User with lastname = " + lastname + "not found" );
+            logger.error("User with lastname = " + lastname + "not found" );
             throw new UsernameNotFoundException("user not found");
         }
         return personRepository.findAllByLastnameAndUser(lastname, user.get());
     }
     public void delete(Long id , String email){
-        logger.debug("Deleting contact with id = " + id);
+        logger.info("Deleting contact with id = " + id);
         Optional<User> user = userRepository.findByEmail(email);
         if (!user.isPresent()){
             logger.error("User with id = " + id + "not found" );

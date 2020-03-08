@@ -46,14 +46,14 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        logger.debug("Inside loadUserByName with mail: " + email);
+        logger.info("Inside loadUserByName with mail: " + email);
         Optional<User> optionalUser = userRepository.findByEmail(email);
         if (!optionalUser.isPresent()){
-            logger.warn("User with mail " + email + " not found");
+            logger.error("User with mail " + email + " not found");
             throw new UsernameNotFoundException("User not found");
         }
         if (!optionalUser.get().getConfirmed()){
-            logger.warn("User with mail " + email + " not confirmed");
+            logger.error("User with mail " + email + " not confirmed");
             throw new UsernameNotFoundException("User not confirmed");
         }
         User user = optionalUser.get();
@@ -65,9 +65,9 @@ public class UserService implements UserDetailsService {
         return userDetails;
     }
     public void registerUser(User user) throws EmailAlreadyExistException {
-        logger.debug("Inside registerUser with user: " + user.getEmail());
+        logger.info("Inside registerUser with user: " + user.getEmail());
         if (userRepository.findByEmail(user.getEmail()).isPresent()){
-            logger.warn("User with mail " + user.getEmail() + " already exists in app");
+            logger.error("User with mail " + user.getEmail() + " already exists in app");
             throw new EmailAlreadyExistException();
         }
         user.setConfirmed(false);
@@ -80,13 +80,12 @@ public class UserService implements UserDetailsService {
         sendMail(token, user);
     }
     public void confirmUser(RegistrationToken token){
-        logger.debug("Inside confirmUser with token: " + token.getName());
+        logger.info("Inside confirmUser with token: " + token.getName());
         User user = token.getUser();
         user.setConfirmed(true);
         userRepository.save(user);
     }
     private void sendMail(RegistrationToken token, User user){
-        logger.debug("Inside sendMail with user: " + user.getEmail());
         Thread thread = new Thread(() -> mailSender.sendMail(token, user));
         thread.start();
     }

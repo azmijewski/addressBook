@@ -33,28 +33,28 @@ public class RegistrationTokenService {
 
 
     public RegistrationToken createToken(User user){
-        logger.debug("Inside createToken for user: " + user.getEmail());
+        logger.info("Inside createToken for user: " + user.getEmail());
         RegistrationToken token = new RegistrationToken();
         token.setUser(user);
         return token;
     }
     public void saveToken(RegistrationToken token){
-        logger.debug("Inside saveToken with token: " + token.getName());
+        logger.info("Inside saveToken with token: " + token.getName());
         tokenRepository.save(token);
     }
     public Optional<RegistrationToken> findByName(String name){
-        logger.debug("Inside findByName with token: " + name);
+        logger.info("Inside findByName with token: " + name);
         return tokenRepository.findByName(name);
     }
     @Scheduled(fixedRate = 1000 * 60 * 60)
     public void deleteExpiredTokens(){
-        logger.debug("Inside scheduled deleteExpiredTokens");
+        logger.info("Inside scheduled deleteExpiredTokens");
         List<RegistrationToken> tokens = tokenRepository.findAll();
         LocalDateTime now = LocalDateTime.now();
         for (RegistrationToken token : tokens){
             logger.info(token.getExpirationDate().toString());
             if (now.isAfter(token.getExpirationDate())){
-                logger.debug("Token with name " + token.getName() + " is going to be removed");
+                logger.info("Token with name " + token.getName() + " is going to be removed");
                 tokenRepository.delete(token);
             }
         }
