@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "app.registration.url",
+      "type": "java.lang.String",
+      "description": "Registartion url."
+    },
+    {
+      "name": "cross.url",
+      "type": "java.lang.String",
+      "description": "Cross url."
+    },
+    {
+      "name": "jwt.secretKey",
+      "type": "java.lang.String",
+      "description": "Secret Key for JWT."
+    },
+    {
+      "name": "jwt.expirationTime",
+      "type": "java.lang.Number",
+      "description": "Token expiration time."
+    }
+  ] }

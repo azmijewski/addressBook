@@ -16,6 +16,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "${cross.url}")
 public class PersonController {
 
     private static Logger logger = LoggerFactory.getLogger(PersonController.class);

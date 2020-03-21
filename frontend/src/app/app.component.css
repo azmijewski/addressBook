@@ -1,10 +1,12 @@
 .container{
+  height: 700px;
   margin-top: 10px;
 }
 .element{
   margin-top: 50px;
 }
 .pageNotFound{
+  margin-top: 200px;
   background-color: #39bbdb;
   color: #fff;
   padding-bottom: 0;

@@ -1,6 +1,7 @@
 package com.zmijewski.adam.addressbook.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public class Person {
     private String city;
 
     @ManyToOne
+    @JsonIgnore
     private User user;
     public Person() {
     }

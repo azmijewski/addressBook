@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,15 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-public class TokenController {
+@CrossOrigin(origins = "${cross.url}")
+public class RegistrationTokenController {
 
-    private static Logger logger = LoggerFactory.getLogger(TokenController.class);
+    private static Logger logger = LoggerFactory.getLogger(RegistrationTokenController.class);
 
     private UserService userService;
     private RegistrationTokenService registrationTokenService;
 
     @Autowired
-    public TokenController(UserService userService, RegistrationTokenService registrationTokenService) {
+    public RegistrationTokenController(UserService userService, RegistrationTokenService registrationTokenService) {
         this.userService = userService;
         this.registrationTokenService = registrationTokenService;
     }
