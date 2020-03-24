@@ -1,10 +1,10 @@
 package com.zmijewski.adam.addressbook.mail;
 
 import com.zmijewski.adam.addressbook.model.User;
-import com.zmijewski.adam.addressbook.token.Token;
+
 
 
 
 public interface MailSender {
-    public void sendMail(Token token, User user);
+    void sendMail(String token, User user);
 }

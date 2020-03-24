@@ -11,7 +11,7 @@
       "description": "Cross url."
     },
     {
-      "name": "jwt.secretKey",
+      "name": "jwt.login.secretKey",
       "type": "java.lang.String",
       "description": "Secret Key for JWT."
     },
@@ -19,5 +19,10 @@
       "name": "jwt.expirationTime",
       "type": "java.lang.Number",
       "description": "Token expiration time."
+    },
+    {
+      "name": "jwt.registration.secretKey",
+      "type": "java.lang.String",
+      "description": "Secret Key for JWT."
     }
   ] }

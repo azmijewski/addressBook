@@ -4,11 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class EmailAlreadyExistException extends RuntimeException{
-    public EmailAlreadyExistException() {
+public class RegistrationTokenExpiredException extends RuntimeException {
+    public RegistrationTokenExpiredException() {
     }
 
-    public EmailAlreadyExistException(String message) {
+    public RegistrationTokenExpiredException(String message) {
         super(message);
     }
 }

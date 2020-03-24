@@ -1,11 +1,12 @@
 package com.zmijewski.adam.addressbook.service;
 
 import com.zmijewski.adam.addressbook.exception.EmailAlreadyExistException;
+import com.zmijewski.adam.addressbook.exception.RegistrationTokenExpiredException;
 import com.zmijewski.adam.addressbook.mail.Mail;
 import com.zmijewski.adam.addressbook.mail.MailSender;
-import com.zmijewski.adam.addressbook.token.RegistrationToken;
 import com.zmijewski.adam.addressbook.model.User;
 import com.zmijewski.adam.addressbook.repository.UserRepository;
+import com.zmijewski.adam.addressbook.token.RegistrationTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
-    private RegistrationTokenService tokenService;
     private MailSender mailSender;
+    private RegistrationTokenUtil tokenUtil;
     private Logger logger = LoggerFactory.getLogger(UserService.class);
     @Autowired
     public UserService(UserRepository userRepository) {
@@ -35,13 +36,12 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
     @Autowired
-    public void setTokenService(RegistrationTokenService tokenService) {
-
-        this.tokenService = tokenService;
-    }
-    @Autowired
     public void setMailSender(@Mail(type = Mail.MailType.REGISTRATION) MailSender mailSender) {
         this.mailSender = mailSender;
+    }
+    @Autowired
+    public void setTokenUtil(RegistrationTokenUtil tokenUtil) {
+        this.tokenUtil = tokenUtil;
     }
 
     @Override
@@ -75,19 +75,26 @@ public class UserService implements UserDetailsService {
         String hashedPassword = passwordEncoder.encode(password);
         user.setPassword(hashedPassword);
         user = userRepository.save(user);
-        RegistrationToken token = tokenService.createToken(user);
-        tokenService.saveToken(token);
+        String token = tokenUtil.generateToken(user.getEmail());
         sendMail(token, user);
     }
-    public void confirmUser(RegistrationToken token){
-        logger.info("Inside confirmUser with token: " + token.getName());
-        User user = token.getUser();
-        user.setConfirmed(true);
-        userRepository.save(user);
+    public void confirmUser(String token){
+        String username = tokenUtil.getUsernameFromToken(token);
+        logger.info("Inside confirmUser with token: " + username);
+        if (tokenUtil.validateToken(token)){
+            Optional<User> user = userRepository.findByEmail(username);
+            user.ifPresent(user1 -> confirmUser(user1));
+        } else{
+            throw new RegistrationTokenExpiredException("Token is expired");
+        }
     }
-    private void sendMail(RegistrationToken token, User user){
+    private void sendMail(String token, User user){
         Thread thread = new Thread(() -> mailSender.sendMail(token, user));
         thread.start();
+    }
+    private void confirmUser(User user){
+        user.setConfirmed(true);
+        userRepository.save(user);
     }
 
 }

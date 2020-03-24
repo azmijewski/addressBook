@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "${cross.url}")
@@ -54,14 +55,7 @@ public class UserController {
                     .badRequest()
                     .build();
         }
-        try {
-            userService.registerUser(user);
-        } catch (EmailAlreadyExistException e) {
-            logger.error("User with email " + user.getEmail() + " already exists in system");
-            return ResponseEntity
-                    .badRequest()
-                    .build();
-        }
+        userService.registerUser(user);
         return ResponseEntity
                 .ok()
                 .build();
@@ -75,6 +69,15 @@ public class UserController {
         final UserDetails userDetails = userService.loadUserByUsername(user.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    @GetMapping("/register/{token}")
+    public ResponseEntity<?> confirmAccount(@PathVariable ("token") String name){
+        logger.info("Inside confirm account method");
+        userService.confirmUser(name);
+        return ResponseEntity
+                .ok()
+                .build();
     }
     private void authenticate(String username, String password){
         try {

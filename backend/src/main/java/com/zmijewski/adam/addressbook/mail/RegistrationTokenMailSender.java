@@ -1,8 +1,6 @@
 package com.zmijewski.adam.addressbook.mail;
 
 import com.zmijewski.adam.addressbook.model.User;
-import com.zmijewski.adam.addressbook.token.RegistrationToken;
-import com.zmijewski.adam.addressbook.token.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +24,16 @@ public class RegistrationTokenMailSender implements MailSender {
     }
 
     @Override
-    public void sendMail(Token token, User user) {
+    public void sendMail(String token, User user) {
         logger.info("Sending mail to " + user.getEmail());
-        RegistrationToken rgtoken = (RegistrationToken) token;
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(user.getEmail());
-        mailMessage.setText(prepareMessageBody(rgtoken));
+        mailMessage.setText(prepareMessageBody(token));
         mailMessage.setSubject("AddressBook - Weryfikacja konta");
         mailSender.send(mailMessage);
     }
-    private String prepareMessageBody(RegistrationToken token){
+    private String prepareMessageBody(String token){
         
-        return "Link do potwierdzenia konta:\n" + appUrl + token.getName() + "\n Jezeli nie rejestrowales sie na stronie, po prostu zignoruj tę wiadomość";
+        return "Link do potwierdzenia konta:\n" + appUrl + token + "\n Jezeli nie rejestrowales sie na stronie, po prostu zignoruj tę wiadomość";
     }
 }

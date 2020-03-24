@@ -15,10 +15,12 @@ import java.util.function.Function;
 
 @Component
 public class JwtTokenUtil implements Serializable {
-    //@Value("${jwt.expirationTime}")
-    private long expirationTime = 5 * 60 * 60;
-    @Value("${jwt.secretKey}")
+
+    @Value("${jwt.login.secretKey}")
     private String secretKey;
+
+
+    private long expirationTime = 1000 * 60 * 60 * 6;
 
     public String getUsernameFromToken(String token){
         return getClaimFromToken(token, Claims::getSubject);
@@ -26,10 +28,7 @@ public class JwtTokenUtil implements Serializable {
     public Date getExpirationDateFromToken(String token){
         return getClaimFromToken(token, Claims::getExpiration);
     }
-    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver){
-        final Claims claims = getAllClaimsFromToken(token);
-        return claimsResolver.apply(claims);
-    }
+
     public String generateToken(UserDetails userDetails){
         Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(claims, userDetails.getUsername());
@@ -49,9 +48,13 @@ public class JwtTokenUtil implements Serializable {
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expirationTime * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
+    }
+    private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver){
+        final Claims claims = getAllClaimsFromToken(token);
+        return claimsResolver.apply(claims);
     }
 
     private Claims getAllClaimsFromToken(String token){

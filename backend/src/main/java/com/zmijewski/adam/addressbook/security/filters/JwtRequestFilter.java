@@ -51,7 +51,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 logger.error("JWT Token Expired");
             }
         } else {
-            logger.error("No Authorization Token");
+            logger.warn("No Authorization Token");
         }
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = userService.loadUserByUsername(userName);
