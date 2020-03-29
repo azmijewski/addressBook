@@ -1,0 +1,6 @@
+<ng-container *ngIf="loginService.isLogged(); else mainPageWithoutLogin">
+  <router-outlet></router-outlet>
+</ng-container>
+<ng-template #mainPageWithoutLogin>
+  <app-main-page-without-login></app-main-page-without-login>
+</ng-template>

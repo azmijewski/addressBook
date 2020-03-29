@@ -83,7 +83,7 @@ public class UserService implements UserDetailsService {
         logger.info("Inside confirmUser with token: " + username);
         if (tokenUtil.validateToken(token)){
             Optional<User> user = userRepository.findByEmail(username);
-            user.ifPresent(user1 -> confirmUser(user1));
+            user.ifPresent(this::confirmUser);
         } else{
             throw new RegistrationTokenExpiredException("Token is expired");
         }
